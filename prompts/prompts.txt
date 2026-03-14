@@ -1,0 +1,2719 @@
+Prompt 1:
+Healthcare Care Coordination Platform (POC)
+
+You are a **Senior Full-Stack Architect** responsible for generating production-quality code for a **Healthcare Care Coordination Platform Proof of Concept**.
+
+Your goal is to build a **clean, modular, scalable system** using modern best practices while avoiding unnecessary complexity.
+
+Always prioritize:
+
+• Scalability
+• Component reusability
+• Clean architecture
+• Type safety
+• Security
+• Maintainability
+
+Even though this is a Proof of Concept, the code must follow **production-grade engineering practices**.
+
+---
+
+TECH STACK
+
+Frontend
+
+Next.js (App Router)
+TypeScript
+TailwindCSS
+TanStack Query
+React Hook Form
+Zod
+
+Backend
+
+Next.js API Routes
+
+Database
+
+Supabase PostgreSQL
+
+Authentication
+
+Supabase Auth
+
+File Storage
+
+Supabase Storage
+
+---
+
+ARCHITECTURE PRINCIPLES
+
+The system must follow **modular domain-driven architecture**.
+
+Each domain module must contain its own:
+
+• UI components
+• hooks
+• services
+• validation
+• types
+
+Avoid tightly coupled code.
+
+Never mix:
+
+UI logic
+API logic
+database queries
+
+Each must exist in its **own layer**.
+
+---
+
+PROJECT FOLDER STRUCTURE
+
+Use the following structure strictly.
+
+app/
+components/
+hooks/
+modules/
+services/
+lib/
+types/
+api/
+
+---
+
+MODULE STRUCTURE
+
+Each domain module must follow this structure.
+
+modules/
+
+patient/
+components/
+hooks/
+services/
+schemas/
+types/
+api/
+
+triage/
+components/
+hooks/
+services/
+schemas/
+types/
+api/
+
+appointments/
+lab/
+billing/
+audit/
+
+---
+
+COMPONENT ARCHITECTURE
+
+Separate components into two categories.
+
+Reusable UI components
+
+/components
+
+Examples
+
+Button
+Input
+Select
+Modal
+Table
+Badge
+Card
+Tabs
+FormField
+
+These must be **generic and reusable across modules**.
+
+---
+
+Domain components
+
+/modules/{module}/components
+
+Examples
+
+PatientTable
+TriageForm
+AppointmentCalendar
+LabResultUploader
+
+---
+
+SERVICE LAYER RULE
+
+All database access must go through the **service layer**.
+
+Never call Supabase directly from:
+
+components
+pages
+hooks
+
+Example architecture
+
+UI → hook → API → service → database
+
+---
+
+DATABASE ACCESS PATTERN
+
+All queries must be implemented inside services.
+
+Example
+
+services/patientService.ts
+
+This file is responsible for:
+
+create patient
+update patient
+fetch patients
+delete patient
+
+---
+
+VALIDATION RULES
+
+Every API request must be validated using **Zod schemas**.
+
+Schemas must live in:
+
+modules/{module}/schemas
+
+Example
+
+createPatientSchema
+updatePatientSchema
+
+Never trust frontend input.
+
+---
+
+TYPE SAFETY
+
+All entities must have shared types.
+
+Types must live in:
+
+types/
+
+Example types
+
+Patient
+Appointment
+TriageAssessment
+LabOrder
+Invoice
+UserRole
+
+---
+
+DATA FETCHING
+
+All frontend data fetching must use **TanStack Query**.
+
+Use hooks pattern.
+
+Example
+
+usePatients()
+useCreatePatient()
+useAppointments()
+
+Hooks must live inside module hooks folder.
+
+modules/{module}/hooks
+
+---
+
+FORM HANDLING
+
+All forms must use:
+
+React Hook Form + Zod Resolver.
+
+Forms must support:
+
+validation
+error messages
+loading state
+submit state
+
+---
+
+ROLE BASED ACCESS CONTROL
+
+All APIs must enforce RBAC.
+
+Roles
+
+admin
+receptionist
+nurse
+doctor
+specialist
+lab_technician
+billing_officer
+compliance_officer
+patient
+
+Create middleware:
+
+lib/rbac.ts
+
+This middleware must verify:
+
+user authentication
+user role authorization
+
+Example
+
+requireRole(["doctor","admin"])
+
+---
+
+AUDIT LOGGING
+
+All critical actions must create audit logs.
+
+Examples
+
+patient created
+triage updated
+lab result uploaded
+invoice generated
+
+Create table
+
+audit_logs
+
+Columns
+
+id
+action
+entity
+entity_id
+performed_by
+timestamp
+metadata JSONB
+
+Create service
+
+services/auditService.ts
+
+---
+
+ERROR HANDLING
+
+Implement standardized API responses.
+
+Success
+
+{
+success: true,
+data
+}
+
+Error
+
+{
+success: false,
+error
+}
+
+Never expose raw database errors.
+
+---
+
+SECURITY REQUIREMENTS
+
+Use Supabase RLS.
+
+Protect patient data.
+
+Ensure:
+
+patients only see their own data
+staff only see authorized data
+
+---
+
+MODULES TO IMPLEMENT
+
+Core modules
+
+Patient Management
+Triage System
+Appointment Scheduling
+Lab Workflow
+Billing System
+Audit Logging
+Admin Management
+
+---
+
+PATIENT MODULE
+
+Features
+
+create patient
+update patient
+view patient profile
+search patients
+
+---
+
+TRIAGE MODULE
+
+Features
+
+nurse triage assessment
+vitals recording
+priority assignment
+triage queue
+
+---
+
+APPOINTMENTS MODULE
+
+Features
+
+schedule appointment
+cancel appointment
+doctor calendar
+
+---
+
+LAB MODULE
+
+Features
+
+order lab tests
+upload lab results
+doctor review
+
+---
+
+BILLING MODULE
+
+Features
+
+generate invoices
+record payments
+insurance tracking
+
+---
+
+FRONTEND UI PATTERN
+
+Use dashboard layout.
+
+Structure
+
+Sidebar navigation
+Top header
+Main content area
+
+Use reusable components:
+
+Cards
+Tables
+Tabs
+Forms
+Badges
+
+---
+
+STATE MANAGEMENT
+
+Prefer server state using TanStack Query.
+
+Avoid global state unless necessary.
+
+---
+
+SEED DATA
+
+Always generate seed data.
+
+Example users
+
+admin user
+doctor user
+nurse user
+patient user
+
+Example patient records.
+
+---
+
+EVERY FEATURE MUST INCLUDE
+
+When generating code always produce:
+
+1 Database schema
+2 Supabase table setup
+3 API routes
+4 Service layer functions
+5 Zod validation schemas
+6 Typescript types
+7 React hooks
+8 Frontend UI components
+9 Example seed data
+
+Every feature must be **fully functional and testable**.
+
+---
+
+IMPORTANT DEVELOPMENT RULES
+
+Never:
+
+query database in UI
+duplicate components
+skip validation
+ignore RBAC
+
+Always:
+
+reuse components
+write typed services
+validate inputs
+log audit actions
+
+---
+
+CODE QUALITY REQUIREMENTS
+
+Code must be:
+
+Readable
+Modular
+Reusable
+Typed
+Secure
+
+Avoid over-engineering but maintain scalable architecture.
+
+---
+
+OUTPUT FORMAT
+
+Whenever implementing a feature always output:
+
+Folder structure
+Database schema
+Service layer
+API routes
+Validation schemas
+React hooks
+Frontend UI components
+Seed data
+
+Ensure the feature is **fully integrated into the platform**.
+
+Prompt 2:
+PHASE 1 — PROJECT FOUNDATION
+Healthcare Care Coordination Platform (POC)
+
+You are implementing **Phase 1: Project Foundation** for a healthcare workflow platform.
+
+The goal is to establish a **clean, scalable architecture** using Next.js App Router and Supabase while ensuring the system compiles successfully and follows production-grade patterns.
+
+All code must follow **TypeScript, modular architecture, reusable components, RBAC, and service-layer design**.
+
+---
+
+TECH STACK
+
+Frontend
+
+Next.js (App Router)
+TypeScript
+TailwindCSS
+TanStack Query
+React Hook Form
+Zod
+
+Backend
+
+Next.js API Routes
+
+Database
+
+Supabase PostgreSQL
+
+Authentication
+
+Supabase Auth
+
+Storage
+
+Supabase Storage
+
+---
+
+ARCHITECTURE REQUIREMENTS
+
+Follow modular scalable architecture.
+
+Use the following folder structure:
+
+/app
+/components
+/modules
+/services
+/lib
+/types
+/api
+/hooks
+
+---
+
+SERVICE LAYER RULE
+
+All database queries must go through a **service layer**.
+
+Never query Supabase directly from:
+
+pages
+components
+hooks
+
+Correct architecture:
+
+UI → hook → API → service → Supabase
+
+---
+
+DATABASE SCHEMA
+
+Create the following tables in Supabase.
+
+---
+
+Table: users
+
+Columns
+
+id (uuid primary key)
+email (text unique)
+role (text)
+created_at (timestamp)
+
+Roles allowed
+
+admin
+receptionist
+nurse
+doctor
+specialist
+lab_technician
+billing_officer
+compliance_officer
+patient
+
+---
+
+Table: roles
+
+Columns
+
+id (uuid primary key)
+name (text)
+description (text)
+
+---
+
+Table: audit_logs
+
+Columns
+
+id (uuid primary key)
+user_id (uuid → users.id)
+action (text)
+entity (text)
+entity_id (uuid)
+timestamp (timestamp)
+metadata (jsonb)
+
+---
+
+SUPABASE CLIENT SETUP
+
+Create reusable Supabase client.
+
+lib/supabaseClient.ts
+
+Responsibilities
+
+initialize Supabase
+handle auth session
+export client instance
+
+---
+
+AUTHENTICATION
+
+Implement authentication using Supabase Auth.
+
+Features required
+
+Login page
+Logout functionality
+Session persistence
+
+Create page
+
+/app/login/page.tsx
+
+Fields
+
+Email
+Password
+
+Use React Hook Form + Zod validation.
+
+---
+
+ROLE BASED ACCESS CONTROL
+
+Implement RBAC system.
+
+Create utility
+
+lib/rbac.ts
+
+Functions
+
+getUserRole()
+requireRole()
+
+Protected routes must check:
+
+user authentication
+user role
+
+---
+
+ROUTE PROTECTION
+
+Create middleware.
+
+middleware.ts
+
+Responsibilities
+
+verify session
+redirect unauthorized users
+enforce RBAC
+
+---
+
+GLOBAL LAYOUT
+
+Create dashboard layout.
+
+app/(dashboard)/layout.tsx
+
+Structure
+
+Sidebar navigation
+Top header
+Main content container
+
+---
+
+NAVIGATION SIDEBAR
+
+Create reusable sidebar component.
+
+components/Sidebar.tsx
+
+Navigation items
+
+Dashboard
+Patients
+Appointments
+Triage
+Treatment Plans
+Lab Management
+Reports
+Compliance
+Admin
+
+Sidebar must support **role-based visibility**.
+
+Example
+
+Patients → receptionist, nurse, doctor
+Lab Management → doctor, lab_technician
+Admin → admin only
+
+---
+
+DASHBOARD PAGE
+
+Route
+
+/app/(dashboard)/dashboard/page.tsx
+
+Display simple dashboard cards.
+
+Cards
+
+Total Patients
+Today's Appointments
+Pending Lab Results
+Active Triage Cases
+
+Use reusable Card components.
+
+---
+
+AUDIT LOGGING SYSTEM
+
+Create service
+
+/services/auditService.ts
+
+Function
+
+logAuditAction()
+
+Arguments
+
+user_id
+action
+entity
+entity_id
+metadata
+
+---
+
+AUDIT LOGGING RULES
+
+Log events for:
+
+login
+logout
+dashboard access
+role validation
+
+All APIs should log actions.
+
+---
+
+API ROUTES
+
+Create API endpoints.
+
+---
+
+GET /api/auth/session
+
+Return current authenticated user.
+
+---
+
+POST /api/auth/login
+
+Handle login request.
+
+---
+
+POST /api/auth/logout
+
+Logout user.
+
+---
+
+GET /api/users/me
+
+Return authenticated user with role.
+
+---
+
+SERVICES
+
+Create services
+
+services/userService.ts
+services/auditService.ts
+
+Responsibilities
+
+fetch user
+get role
+create audit log
+
+---
+
+TYPES
+
+Create shared types.
+
+types/User.ts
+types/Role.ts
+types/AuditLog.ts
+
+---
+
+HOOKS
+
+Create reusable hooks.
+
+hooks/useAuth.ts
+hooks/useUser.ts
+
+Responsibilities
+
+fetch user session
+get role
+logout
+
+---
+
+UI COMPONENTS
+
+Create reusable components.
+
+/components
+
+Button
+Input
+Card
+Sidebar
+Header
+
+These must be reusable across modules.
+
+---
+
+FORM VALIDATION
+
+Use Zod schemas.
+
+schemas/loginSchema.ts
+
+Validate
+
+email
+password
+
+---
+
+SEED DATA
+
+Create example seed data.
+
+Admin user
+Doctor user
+Nurse user
+Patient user
+
+Example roles inserted into roles table.
+
+---
+
+EXPECTED RESULT
+
+User can:
+
+Login successfully
+Session is stored
+User role is retrieved
+
+Protected routes prevent unauthorized access.
+
+Navigation sidebar hides unauthorized modules.
+
+Dashboard loads successfully.
+
+Audit logs capture user actions such as login and page access.
+
+---
+
+COMPILATION REQUIREMENT
+
+Ensure the project builds and runs without errors.
+
+Use proper TypeScript types.
+
+Avoid unused imports.
+
+Ensure API routes return consistent responses.
+
+---
+
+DELIVERABLES
+
+Always generate:
+
+1. Database schema
+2. Supabase table setup
+3. Service layer functions
+4. API routes
+5. Zod validation schemas
+6. TypeScript types
+7. React hooks
+8. UI components
+9. Example seed data
+
+The system must compile successfully and be ready for **Phase 2 implementation**.
+
+Phase 3:
+PHASE 2 — PATIENT MANAGEMENT MODULE
+
+You are implementing **Phase 2 of the Healthcare Care Coordination Platform**.
+
+Phase 1 already implemented:
+
+• Next.js App Router project
+• Supabase Auth
+• RBAC middleware
+• Dashboard layout
+• Audit logging system
+• Modular folder architecture
+
+Now implement the **Patient Management Module**.
+
+The module must follow **the existing architecture rules** and must be **scalable, reusable, and production-grade**.
+
+Do not break the existing project structure.
+
+---
+
+ARCHITECTURE RULES
+
+Follow the project structure strictly.
+
+/app
+/components
+/modules
+/services
+/lib
+/types
+/api
+/hooks
+
+The Patient module must live inside:
+
+/modules/patients
+
+---
+
+PATIENT MODULE STRUCTURE
+
+/modules/patients
+
+components/
+hooks/
+services/
+schemas/
+types/
+api/
+
+---
+
+FEATURE GOAL
+
+Implement the complete **patient lifecycle management**.
+
+Features required
+
+Create patient
+Edit patient
+View patient
+Search patients
+Patient list table
+Patient profile page
+Patient intake records
+
+---
+
+DATABASE TABLES
+
+Create the following Supabase tables.
+
+---
+
+Table: patients
+
+Columns
+
+id (uuid primary key)
+name (text)
+dob (date)
+gender (text)
+phone (text)
+email (text)
+insurance_details (text)
+created_at (timestamp)
+
+---
+
+Table: patient_intake
+
+Columns
+
+id (uuid primary key)
+patient_id (uuid → patients.id)
+symptoms (text[])
+vitals (jsonb)
+status (text)
+created_by (uuid → users.id)
+created_at (timestamp)
+
+Example vitals JSON
+
+{
+"temperature": 37.2,
+"heart_rate": 78,
+"blood_pressure": "120/80"
+}
+
+---
+
+ROUTES TO IMPLEMENT
+
+/patients
+
+Patients list page.
+
+---
+
+/patients/create
+
+Create patient form.
+
+---
+
+/patients/[id]
+
+Patient profile page.
+
+---
+
+PATIENT LIST PAGE
+
+Route
+
+/patients
+
+Features
+
+Search patients
+Pagination
+Sortable table
+
+Search fields
+
+Patient name
+Date of birth
+Patient ID
+
+Use **TanStack Table**.
+
+Table columns
+
+Patient ID
+Name
+DOB
+Gender
+Phone
+Created Date
+Actions
+
+Actions
+
+View patient
+Edit patient
+
+---
+
+CREATE PATIENT PAGE
+
+Route
+
+/patients/create
+
+Use **React Hook Form + Zod**.
+
+Fields
+
+Name
+Date of Birth
+Gender
+Phone
+Email
+Insurance Details
+
+Submit action
+
+POST /api/patients
+
+After success redirect to
+
+/patients
+
+---
+
+PATIENT PROFILE PAGE
+
+Route
+
+/patients/[id]
+
+Display patient information.
+
+Implement tab navigation.
+
+Tabs
+
+Overview
+Intake History
+Appointments
+Treatment Plans
+Lab Results
+Audit Log
+
+---
+
+OVERVIEW TAB
+
+Display patient details
+
+Name
+DOB
+Gender
+Phone
+Email
+Insurance details
+
+Include Edit button.
+
+---
+
+INTAKE HISTORY TAB
+
+Display intake records.
+
+Columns
+
+Symptoms
+Vitals
+Status
+Created By
+Created Date
+
+---
+
+APPOINTMENTS TAB
+
+Placeholder for Phase 3.
+
+---
+
+TREATMENT PLANS TAB
+
+Placeholder for Phase 5.
+
+---
+
+LAB RESULTS TAB
+
+Placeholder for Phase 7.
+
+---
+
+AUDIT LOG TAB
+
+Display audit logs related to patient.
+
+---
+
+API ENDPOINTS
+
+Implement the following API routes.
+
+---
+
+POST /api/patients
+
+Create patient.
+
+---
+
+GET /api/patients
+
+Return paginated patient list.
+
+Query parameters
+
+search
+page
+limit
+
+---
+
+GET /api/patients/:id
+
+Return patient details.
+
+Include intake records.
+
+---
+
+PUT /api/patients/:id
+
+Update patient information.
+
+---
+
+SERVICE LAYER
+
+All database queries must be implemented in
+
+/modules/patients/services/patientService.ts
+
+Functions required
+
+createPatient()
+getPatients()
+getPatientById()
+updatePatient()
+
+---
+
+VALIDATION SCHEMAS
+
+Create Zod schemas.
+
+/modules/patients/schemas
+
+Schemas
+
+createPatientSchema
+updatePatientSchema
+
+---
+
+REACT HOOKS
+
+Create hooks using TanStack Query.
+
+/modules/patients/hooks
+
+Hooks
+
+usePatients()
+usePatient()
+useCreatePatient()
+useUpdatePatient()
+
+---
+
+REUSABLE COMPONENTS
+
+Create domain components.
+
+/modules/patients/components
+
+PatientTable
+PatientForm
+PatientProfileTabs
+PatientOverview
+PatientIntakeTable
+
+---
+
+RBAC RULES
+
+Only these roles can access patients module
+
+admin
+receptionist
+nurse
+doctor
+
+Patients themselves can only view their own profile.
+
+---
+
+AUDIT LOGGING
+
+Log events for
+
+patient created
+patient updated
+patient viewed
+
+Use existing
+
+auditService.logAction()
+
+---
+
+SEARCH REQUIREMENTS
+
+Search must support
+
+Patient name
+DOB
+Patient ID
+
+Search must be **debounced and server-side**.
+
+---
+
+PAGINATION
+
+Use server-side pagination.
+
+Default page size
+
+10 records.
+
+---
+
+ERROR HANDLING
+
+Return consistent API responses.
+
+Success
+
+{
+success: true,
+data
+}
+
+Error
+
+{
+success: false,
+error
+}
+
+---
+
+EXPECTED RESULT
+
+Receptionist can register patient.
+
+Patients list loads successfully.
+
+Search works.
+
+Pagination works.
+
+Patient profile page loads.
+
+Patient intake records are visible.
+
+Audit logs capture patient actions.
+
+---
+
+DELIVERABLES
+
+Always generate
+
+Database schema
+Supabase queries
+Service layer
+API routes
+Zod validation schemas
+TypeScript types
+React hooks
+UI components
+Seed data
+
+The module must compile successfully and integrate with **Phase 1 foundation**.
+
+Prompt 4:
+You are implementing **Phase 4 of the Healthcare Care Coordination Platform**.
+
+Previous phases already implemented:
+
+Phase 1 — Project foundation
+Phase 2 — Patient Management
+Phase 3 — (Triage module)
+
+This phase must implement a **robust appointment scheduling system** for clinics and hospitals.
+
+The system must follow the **existing modular architecture and service-layer pattern**.
+
+The implementation must be **scalable, reusable, and production-grade**.
+
+---
+
+ARCHITECTURE RULES
+
+Follow the existing project structure.
+
+/app
+/components
+/modules
+/services
+/lib
+/types
+/api
+/hooks
+
+The appointment module must live inside:
+
+/modules/appointments
+
+---
+
+MODULE STRUCTURE
+
+/modules/appointments
+
+components/
+hooks/
+services/
+schemas/
+types/
+api/
+
+---
+
+GOAL
+
+Build a complete **Appointment Scheduling Engine**.
+
+Features
+
+Doctor availability calendar
+Appointment booking
+Prevent double booking
+Cancel appointment
+Reschedule appointment
+Calendar view of appointments
+
+---
+
+DATABASE TABLES
+
+Create the following Supabase tables.
+
+---
+
+Table: doctor_availability
+
+Columns
+
+id (uuid primary key)
+doctor_id (uuid → users.id)
+day_of_week (integer)
+start_time (time)
+end_time (time)
+is_available (boolean)
+created_at (timestamp)
+
+Example
+
+Monday
+09:00 → 17:00
+
+---
+
+Table: appointments
+
+Columns
+
+id (uuid primary key)
+patient_id (uuid → patients.id)
+doctor_id (uuid → users.id)
+appointment_time (timestamp)
+appointment_type (text)
+room (text)
+status (text)
+created_at (timestamp)
+
+Status values
+
+scheduled
+cancelled
+completed
+rescheduled
+
+---
+
+ROUTES TO IMPLEMENT
+
+/appointments
+
+Appointments list page.
+
+---
+
+/appointments/create
+
+Appointment booking form.
+
+---
+
+/appointments/calendar
+
+Calendar view for appointments.
+
+---
+
+APPOINTMENTS LIST PAGE
+
+Route
+
+/appointments
+
+Display appointments table.
+
+Use **TanStack Table**.
+
+Columns
+
+Appointment ID
+Patient Name
+Doctor
+Appointment Time
+Type
+Room
+Status
+Actions
+
+Actions
+
+View
+Cancel
+Reschedule
+
+---
+
+APPOINTMENT BOOKING PAGE
+
+Route
+
+/appointments/create
+
+Use **React Hook Form + Zod validation**.
+
+Fields
+
+Patient selector
+Doctor selector
+Appointment time
+Appointment type
+Room
+
+Appointment type options
+
+consultation
+follow-up
+surgery
+
+---
+
+BOOKING RULES
+
+If appointment_type = surgery
+
+Room must be **Operating Room**.
+
+If doctor is unavailable
+
+Booking must be prevented.
+
+---
+
+DOUBLE BOOKING PREVENTION
+
+Before creating appointment:
+
+Check if doctor already has appointment at that time.
+
+If conflict exists:
+
+Return error
+
+"Doctor already has an appointment at this time."
+
+This logic must live in **appointmentService**.
+
+---
+
+DOCTOR AVAILABILITY CHECK
+
+Before booking:
+
+Check doctor_availability table.
+
+If requested time is outside availability:
+
+Reject booking.
+
+---
+
+CALENDAR PAGE
+
+Route
+
+/appointments/calendar
+
+Display appointments in calendar layout.
+
+Calendar must show:
+
+Day view
+Week view
+
+Appointments must show:
+
+Patient name
+Doctor name
+Appointment type
+
+---
+
+RESCHEDULE APPOINTMENT
+
+Allow receptionist to change appointment_time.
+
+API
+
+PUT /api/appointments/:id
+
+Update time and status = rescheduled.
+
+---
+
+CANCEL APPOINTMENT
+
+API
+
+PUT /api/appointments/:id/cancel
+
+Update status = cancelled.
+
+---
+
+API ENDPOINTS
+
+Implement APIs.
+
+---
+
+POST /api/appointments
+
+Create appointment.
+
+---
+
+GET /api/appointments
+
+Return paginated appointment list.
+
+Query parameters
+
+doctor_id
+patient_id
+date
+page
+limit
+
+---
+
+GET /api/appointments/:id
+
+Return appointment details.
+
+---
+
+PUT /api/appointments/:id
+
+Update appointment.
+
+---
+
+PUT /api/appointments/:id/cancel
+
+Cancel appointment.
+
+---
+
+SERVICE LAYER
+
+All database queries must be implemented in
+
+/modules/appointments/services/appointmentService.ts
+
+Functions required
+
+createAppointment()
+getAppointments()
+getAppointmentById()
+updateAppointment()
+cancelAppointment()
+checkDoctorAvailability()
+preventDoubleBooking()
+
+---
+
+VALIDATION SCHEMAS
+
+Create Zod schemas.
+
+/modules/appointments/schemas
+
+Schemas
+
+createAppointmentSchema
+updateAppointmentSchema
+
+---
+
+REACT HOOKS
+
+Create hooks using TanStack Query.
+
+/modules/appointments/hooks
+
+Hooks
+
+useAppointments()
+useAppointment()
+useCreateAppointment()
+useUpdateAppointment()
+useCancelAppointment()
+
+---
+
+REUSABLE COMPONENTS
+
+Create components.
+
+/modules/appointments/components
+
+AppointmentTable
+AppointmentForm
+AppointmentCalendar
+AppointmentDetailsModal
+
+---
+
+RBAC RULES
+
+Access rules
+
+Receptionist → create appointments
+Doctor → view own appointments
+Admin → manage all appointments
+
+---
+
+AUDIT LOGGING
+
+Log events for
+
+appointment created
+appointment cancelled
+appointment rescheduled
+
+Use
+
+auditService.logAction()
+
+---
+
+SEARCH FUNCTIONALITY
+
+Support searching by
+
+Patient name
+Doctor name
+Appointment date
+
+Search must be **server-side**.
+
+---
+
+PERFORMANCE
+
+Use server-side pagination.
+
+Default page size
+
+10 records.
+
+---
+
+EXPECTED RESULT
+
+Receptionist can:
+
+Book appointment
+Cancel appointment
+Reschedule appointment
+
+Calendar page shows scheduled appointments.
+
+Doctor availability is enforced.
+
+Double booking is prevented.
+
+Audit logs capture appointment actions.
+
+---
+
+DELIVERABLES
+
+Always generate
+
+Database schema
+Supabase queries
+Service layer
+API routes
+Zod validation schemas
+TypeScript types
+React hooks
+UI components
+Seed data
+
+Ensure the module compiles successfully and integrates with existing modules.
+
+Prompt 5:
+Objective
+
+Implement a **professional clinical triage system** that allows nurses to assess patients, automatically prioritize cases using rules and vitals, and route patients to the correct doctor or department.
+
+The system must support:
+
+• Nurse triage assessments
+• Intelligent rule-based patient prioritization
+• Automated vitals safety alerts
+• Doctor patient assignment workflow
+• Real-time queue monitoring
+• Triage analytics dashboard
+• Mobile-friendly triage interface
+
+The implementation must be **scalable, reusable, secure, and production-ready**.
+
+All UI must follow the **existing design system and UI patterns already implemented in the application**.
+
+---
+
+DESIGN SYSTEM REQUIREMENTS
+
+Follow the existing UI architecture:
+
+• Reuse existing layout components
+• Reuse tables, modals, cards, badges, and form components
+• Maintain consistent spacing, typography, and colors
+• Do NOT introduce new UI styles
+
+Ensure full **design consistency across modules**.
+
+---
+
+USER ROLES
+
+Nurse
+• Perform triage assessments
+• Record vitals
+• Assign priority
+
+Doctor
+• View triage queue
+• Accept patient
+• Begin consultation
+
+Admin
+• Configure triage rules
+• Manage protocols
+
+---
+
+TRIAGE WORKFLOW
+
+Patient Registered
+→ Patient Intake
+→ Nurse Performs Triage
+→ Priority Assigned
+→ Added to Triage Queue
+→ Doctor Accepts Patient
+→ Consultation Begins
+
+Possible patient states:
+
+REGISTERED
+INTAKE_COMPLETED
+TRIAGED
+WAITING_FOR_DOCTOR
+ASSIGNED_TO_DOCTOR
+CONSULTED
+
+---
+
+DATABASE DESIGN
+
+Table: triage_assessments
+
+Columns
+
+id (uuid primary key)
+patient_id (uuid → patients.id)
+nurse_id (uuid → users.id)
+symptoms (text[])
+temperature (decimal)
+heart_rate (integer)
+blood_pressure_sys (integer)
+blood_pressure_dia (integer)
+pain_scale (integer)
+priority (text)
+status (text)
+notes (text)
+created_at (timestamp)
+
+---
+
+Table: triage_rules
+
+Columns
+
+id (uuid primary key)
+name (text)
+conditions (jsonb)
+priority (text)
+department (text)
+is_active (boolean)
+created_at (timestamp)
+
+Example JSON rule
+
+{
+"symptoms": ["chest pain"],
+"heart_rate": { "gt": 120 },
+"bp_sys": { "gt": 180 }
+}
+
+---
+
+Table: triage_audit_logs
+
+Columns
+
+id (uuid primary key)
+triage_id
+action
+performed_by
+old_value
+new_value
+timestamp
+
+---
+
+PHASE 1 — INTELLIGENT TRIAGE ENGINE
+
+Goal
+
+Build the rule engine that automatically determines patient priority.
+
+---
+
+RULE ENGINE
+
+Implement a service:
+
+triageEngine.evaluate()
+
+Inputs
+
+Symptoms
+Vitals
+Pain scale
+
+The engine must:
+
+• Load active triage rules
+• Evaluate JSON conditions
+• Determine priority
+• Assign department
+
+Priority levels
+
+LOW
+MEDIUM
+HIGH
+CRITICAL
+
+---
+
+VITALS AUTO ALERTS
+
+Implement safety ranges.
+
+Heart Rate
+
+Normal: 60–100
+Critical: <40 or >150
+
+Blood Pressure
+
+Normal: <140
+Critical: >180
+
+Temperature
+
+Normal: 36–37.5
+Critical: >40
+
+If vitals exceed lethal thresholds:
+
+priority = CRITICAL
+
+---
+
+TRIAGE FORM
+
+Create page:
+
+/triage/new
+
+Fields
+
+Patient selector
+Symptoms multi-select
+Temperature
+Heart Rate
+Blood Pressure
+Pain Scale (1–10 visual selector)
+Notes
+
+Submit action
+
+POST /api/triage
+
+---
+
+PHASE 2 — PHYSICIAN WORKFLOW
+
+Goal
+
+Enable doctors to claim patients from the triage queue.
+
+---
+
+TRIAGE QUEUE PAGE
+
+Route
+
+/triage-queue
+
+Display patient queue using TanStack Table.
+
+Columns
+
+Patient Name
+Symptoms
+Priority
+Wait Time
+Assigned Department
+Status
+Actions
+
+---
+
+QUEUE ACTIONS
+
+Doctor actions
+
+Accept Patient
+Start Consultation
+
+---
+
+ACCEPT PATIENT FLOW
+
+API
+
+PUT /api/triage/:id/assign
+
+Body
+
+{
+doctor_id
+}
+
+Update status
+
+ASSIGNED_TO_DOCTOR
+
+---
+
+WAIT TIME ALERTS
+
+Implement auto alerts.
+
+If patient waiting > 15 minutes
+
+Show nurse notification.
+
+---
+
+CRITICAL ALERT
+
+If priority = CRITICAL
+
+Notify doctor immediately.
+
+---
+
+PHASE 3 — TRIAGE DASHBOARD
+
+Goal
+
+Provide clinical performance insights.
+
+---
+
+DASHBOARD PAGE
+
+Route
+
+/triage-dashboard
+
+---
+
+METRICS
+
+Average wait time
+
+Time to first assessment
+
+Patients by priority
+
+Patients triaged today
+
+---
+
+CHARTS
+
+Priority distribution chart
+
+Wait time trend chart
+
+Department routing chart
+
+---
+
+PHASE 4 — RULE MANAGEMENT (ADMIN)
+
+Goal
+
+Allow admins to manage triage rules without database queries.
+
+---
+
+RULE MANAGEMENT PAGE
+
+Route
+
+/admin/triage-rules
+
+---
+
+RULES TABLE
+
+Columns
+
+Rule Name
+Conditions
+Priority
+Department
+Status
+Actions
+
+Actions
+
+Edit rule
+Disable rule
+Delete rule
+
+---
+
+CREATE RULE FORM
+
+Fields
+
+Rule Name
+Symptoms selector
+Vitals thresholds
+Priority
+Department
+
+Save rule as JSONB conditions.
+
+---
+
+PHASE 5 — MOBILE TRIAGE OPTIMIZATION
+
+Goal
+
+Allow nurses to triage patients quickly on tablets.
+
+---
+
+RESPONSIVE DESIGN
+
+Triage forms must support
+
+Tablet layout
+Mobile layout
+
+---
+
+QUICK TRIAGE ACTIONS
+
+Buttons
+
+Routine Fever
+Minor Injury
+Chest Pain
+
+Each button pre-fills the triage form.
+
+---
+
+BACKEND APIs
+
+POST /api/triage
+
+Create triage assessment.
+
+---
+
+GET /api/triage
+
+Return triage queue.
+
+---
+
+GET /api/triage/:id
+
+Return triage details.
+
+---
+
+PUT /api/triage/:id
+
+Update triage assessment.
+
+---
+
+PUT /api/triage/:id/assign
+
+Assign doctor.
+
+---
+
+POST /api/triage-rules
+
+Create rule.
+
+---
+
+GET /api/triage-rules
+
+Get all rules.
+
+---
+
+PUT /api/triage-rules/:id
+
+Update rule.
+
+---
+
+DELETE /api/triage-rules/:id
+
+Delete rule.
+
+---
+
+REUSABLE COMPONENTS
+
+Build reusable components.
+
+TriageForm
+TriageQueueTable
+PriorityBadge
+VitalsCard
+PainScaleSelector
+TriageRulesTable
+TriageDashboardCharts
+
+---
+
+SECURITY REQUIREMENTS
+
+Implement Row Level Security.
+
+Patients visible only to assigned staff.
+
+Audit every triage change.
+
+---
+
+PERFORMANCE REQUIREMENTS
+
+Use:
+
+Server-side pagination
+Debounced search
+Memoized table rows
+Optimized rule evaluation
+
+---
+
+EXPECTED RESULT
+
+Nurses can:
+
+Perform triage assessment
+Record vitals
+Assign priority
+
+Doctors can:
+
+View triage queue
+Accept patients
+Start consultation
+
+Admins can:
+
+Manage triage rules
+
+The system automatically prioritizes patients based on symptoms and vitals.
+
+---
+
+DELIVERABLES
+
+Database schema
+Triage rule engine
+Backend APIs
+Triage form UI
+Queue management UI
+Dashboard analytics
+Admin rule management UI
+Mobile-friendly triage interface
+
+All UI must remain **consistent with the existing application design system**.
+
+Prompt 6:
+PHASE 6 — ADMIN SETTINGS MODULE
+
+Objective
+
+You are implementing **Phase 6 of the Healthcare Care Coordination Platform**.
+
+Previous phases implemented:
+• Phase 1 — Project foundation & Auth
+• Phase 2 — Patient Management
+• Phase 3 — Appointment Scheduling
+• Phase 4 — Lab/Billing (or subsequent modules)
+• Phase 5 — Triage Module
+
+Now implement the **Admin Settings Module**.
+
+The module must follow the **existing modular architecture and service-layer pattern**.
+The implementation must be **scalable, reusable, secure, and production-grade**.
+
+---
+
+ARCHITECTURE RULES
+
+Follow the existing project structure strictly.
+
+/app
+/components
+/modules
+/services
+/lib
+/types
+/api
+/hooks
+
+The Admin module must live inside:
+/modules/admin
+
+---
+
+MODULE STRUCTURE
+
+/modules/admin
+components/
+hooks/
+services/
+schemas/
+types/
+api/
+
+---
+
+FEATURE GOAL
+
+Implement a comprehensive **Admin Settings and User Management System**.
+
+Features required:
+• User Management (Add, Edit, Deactivate users)
+• Role Assignment
+• Audit Log Viewer (system-wide activity tracking)
+• System Configuration (Clinic details overview)
+
+---
+
+DATABASE TABLES (Review)
+
+The following tables should already exist from Phase 1, but confirm their structure or alter if necessary:
+
+Table: users (Already exists, holds auth.users references, email, role, first_name, last_name)
+Ensure `status` column exists (active, inactive).
+
+Table: audit_logs (Already exists, tracks user actions)
+
+---
+
+ROUTES TO IMPLEMENT
+
+/admin
+Admin dashboard overview (Summary metrics: total users, active doctors, recent logins).
+
+/admin/users
+List of all system users.
+
+/admin/users/create
+Add new user form.
+
+/admin/users/[id]
+Edit user form.
+
+/admin/audit-logs
+System-wide audit logs viewer.
+
+---
+
+USER MANAGEMENT PAGE
+
+Route: /admin/users
+
+Use **TanStack Table**.
+
+Columns:
+• Name
+• Email
+• Role (Badge with distinct colors per role)
+• Department
+• Status (Active/Inactive)
+• Created Date
+• Actions
+
+Actions:
+• Edit User
+• Deactivate User / Activate User
+
+Search & Filters:
+• Search by Name or Email
+• Filter by Role
+• Filter by Status
+
+---
+
+CREATE / EDIT USER PAGE
+
+Routes: /admin/users/create and /admin/users/[id]
+
+Use **React Hook Form + Zod**.
+
+Fields:
+• First Name
+• Last Name
+• Email
+• Role (dropdown: admin, doctor, nurse, receptionist, lab_technician, billing_officer, specialist, compliance_officer)
+• Department (optional text or dropdown)
+• Status (active/inactive)
+
+*Note: For a POC, creating a user might require calling Supabase Admin API to create the auth.user, or creating a mock user if restricted. Follow the project's established pattern for user seeding/creation.*
+
+---
+
+AUDIT LOGS VIEWER
+
+Route: /admin/audit-logs
+
+Use **TanStack Table**.
+
+Columns:
+• Timestamp
+• User (who performed the action)
+• Action (e.g., "Created Patient", "Updated Triage")
+• Entity (e.g., "Patient", "Assessment")
+• Details (JSON metadata expandable view)
+
+Filters & Search:
+• Filter by Date Range
+• Filter by User
+• Filter by Entity
+• Search by Keyword
+
+Ensure pagination (server-side).
+
+---
+
+API ENDPOINTS
+
+Implement the following API routes.
+
+GET /api/admin/users
+Return paginated list of users.
+
+POST /api/admin/users
+(Optional if using Supabase Admin Auth) Create a new user profile.
+
+GET /api/admin/users/:id
+Get user details.
+
+PUT /api/admin/users/:id
+Update user role/status/details.
+
+DELETE /api/admin/users/:id
+Soft delete (deactivate) user.
+
+GET /api/admin/audit-logs
+Return paginated audit logs.
+
+GET /api/admin/stats
+Return high-level metrics for the admin dashboard.
+
+---
+
+SERVICE LAYER
+
+All database queries must be implemented in:
+/modules/admin/services/adminService.ts
+
+Functions required:
+getUsers()
+getUserById()
+createUser()
+updateUser()
+deactivateUser()
+getSystemAuditLogs()
+getAdminDashboardStats()
+
+---
+
+VALIDATION SCHEMAS
+
+Create Zod schemas.
+/modules/admin/schemas
+
+Schemas:
+createUserSchema
+updateUserSchema
+
+---
+
+REACT HOOKS
+
+Create hooks using TanStack Query.
+/modules/admin/hooks
+
+Hooks:
+useUsers()
+useUser(id)
+useCreateUser()
+useUpdateUser()
+useSystemAuditLogs()
+
+---
+
+REUSABLE COMPONENTS
+
+Create domain components.
+/modules/admin/components
+
+UsersTable
+UserForm
+AuditLogsTable
+AdminStatCards
+RoleFilterPills
+
+---
+
+RBAC RULES
+
+Strictly enforce:
+**Only users with the `admin` role can access the `/admin` routes and APIs.**
+
+If any other role attempts access, redirect to `/dashboard` or return 403 Forbidden.
+
+---
+
+AUDIT LOGGING
+
+Log events for:
+• User created
+• User role updated
+• User deactivated
+
+Use existing:
+auditService.logAction()
+
+---
+
+PERFORMANCE & UX
+
+• Use server-side pagination for users and audit logs.
+• Search must be **debounced**.
+• Use premium UI components (glassmorphism, clean badges, proper spacing) matching the existing CareFlow design system.
+
+---
+
+EXPECTED RESULT
+
+• Admins can securely view and manage all staff members in the system.
+• Admins can change user roles and deactivate accounts.
+• Admins can view a full, searchable history of all actions taken in the system via the Audit Logs viewer.
+• Non-admins are blocked from accessing these pages.
+
+---
+
+DELIVERABLES
+
+Always generate:
+1. Database schema updates (e.g., adding status/department to users)
+2. Supabase queries
+3. Service layer
+4. API routes
+5. Zod validation schemas
+6. TypeScript types
+7. React hooks
+8. UI components
+9. Integration with global Sidebar navigation
+
+The module must compile successfully, look premium, and integrate seamlessly with the existing project architecture.
