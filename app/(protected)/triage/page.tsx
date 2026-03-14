@@ -1,0 +1,1 @@
+export default function Page() { return <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200/60"><h1 className="text-2xl font-bold text-slate-800 capitalize">triage</h1><p className="mt-2 text-slate-500">This module is under construction.</p></div>; }
